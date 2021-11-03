@@ -70,7 +70,7 @@ We provide configuration files under the `configs` folder. All config files exce
 python main.py -c combo_clip_v20_cat.json -v clip_text_vectors.npy
 ```
 
-To run a FastText ablation, you need not add the path to the vocabulary embeddings (it's the current input default, feel free to change).
+To run a FastText ablation, you need not add the path to the vocabulary embeddings (it's the current text embedding default, feel free to change).
 
 ```
 # run language ablation with FastText instead of CLIP
