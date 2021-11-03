@@ -1,0 +1,1 @@
+{"vocab_size": 71070, "views": 20, "which_view": null, "join_type": "LSTM", "vis_feat_dims": {}, "num_crops": 10, "crop_join": "AVG", "text_dims": 300, "use_view_text": true, "use_view_ids": true, "use_view_cls": false, "view_text_count": 100, "view_ids_count": 50, "view_cls_count": 50, "view_text_join": "AVG", "net": "lang"}
