@@ -1,6 +1,9 @@
 # MoTIF
 Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments
-
 NAACL ViGIL Workshop Paper 2021
 
-Dataset files and baseline code to be added shortly.
+To start, make an experiments directory where models and performance results will be written.
+
+```
+mkdir experiments
+```
