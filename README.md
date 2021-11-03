@@ -1,6 +1,9 @@
 # MoTIF
 Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments
-NAACL ViGIL Workshop Paper 2021
+Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer
+NAACL ViGIL Workshop Spotlight Paper 2021
+
+COMING SOON: All language annotations (all 6.1k collected tasks), code for automating mobile app tasks, and additional data! Check back soon for updates. 
 
 ## Data Extraction and Set Up
 To start, download the raw data and features from https://drive.google.com/file/d/1ZAV7Xi7SMWNubxf7MB8_fjPupg-o_RWC/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
@@ -76,4 +79,15 @@ To run a FastText ablation, you need not add the path to the vocabulary embeddin
 ```
 # run language ablation with FastText instead of CLIP
 python main.py -c ft_lang_et_id_cls_v20_avg.json
+```
+
+### Citation
+If you use our code or data, please consider citing our work :)
+```
+@article{burns2021mobile,
+      title={Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments}, 
+      author={Andrea Burns and Deniz Arsan and Sanjna Agrawal and Ranjitha Kumar and Kate Saenko and Bryan A. Plummer},
+      journal={Visually Grounded Interaction and Language Workshop at the North American Chapter of the Association for Computational Linguistics (NAACL)}
+      year={2021}
+}
 ```
