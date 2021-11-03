@@ -3,18 +3,19 @@ Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in
 NAACL ViGIL Workshop Paper 2021
 
 ## Data Extraction and Set Up
-To start, download the raw data from https://drive.google.com/file/d/1bZ8CtPM1U8QDEg2zc6W9hnnwsL8ubSZ-/view?usp=sharing and unzip it.
+To start, download the raw data and features from https://drive.google.com/file/d/1ZAV7Xi7SMWNubxf7MB8_fjPupg-o_RWC/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
 ```
-unzip -q MoTIF_raw.zip
+tar -xf motif_raw_data.tar.gz
+tar -xf data.tar.gz
 ```
 
-You should now have a folder named `raw_data`. Next, make an experiments directory where models and performance results will be written.
+You should now have folders named `raw_data` and `data`. Next, make an experiments directory where models and performance results will be written.
 
 ```
 mkdir experiments
 ```
 
-Follow along all instructions in the `feature_extraction` folder to obtain the text (FastText, Screen2Vec, CLIP) and image (Icon, ResNet, CLIP) features.
+If you need the feature extraction code, you can check it out in the `feature_extraction` folder and follow along the instructions there to obtain the text (FastText, Screen2Vec, CLIP) and image (Icon, ResNet, CLIP) features.
 
 After, your repo should have the following structure.
 ```
