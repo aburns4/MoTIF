@@ -5,6 +5,13 @@ NAACL ViGIL Workshop Spotlight Paper 2021
 
 COMING SOON: All language annotations (all 6.1k collected tasks), code for automating mobile app tasks, and additional data! Check back soon for updates. 
 
+## Environment
+You can build an anaconda environment using our `requirements.txt` file, which has a comprehensive list of the packages installed in the environment used to run experiments. Note, it may contain unnecessary packages. The most important packages are:
+* pytorch 1.7.1
+* torchvision 0.8.2
+* numpy 
+* scikit-learn
+
 ## Data Extraction and Set Up
 To start, download the raw data and features from https://drive.google.com/file/d/1ZAV7Xi7SMWNubxf7MB8_fjPupg-o_RWC/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
 ```
