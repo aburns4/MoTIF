@@ -88,6 +88,9 @@ If you use our code or data, please consider citing our work :)
       title={Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments}, 
       author={Andrea Burns and Deniz Arsan and Sanjna Agrawal and Ranjitha Kumar and Kate Saenko and Bryan A. Plummer},
       journal={Visually Grounded Interaction and Language Workshop at the North American Chapter of the Association for Computational Linguistics (NAACL)}
-      year={2021}
+      year={2021},
+      url={http://arxiv.org/abs/2104.08560},
+      archivePrefix={arXiv},
+      eprint={2104.08560}
 }
 ```
