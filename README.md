@@ -13,7 +13,7 @@ You can build an anaconda environment using our `requirements.txt` file, which h
 * scikit-learn
 
 ## Data Extraction and Set Up
-To start, download the raw data and features from https://drive.google.com/file/d/1ZAV7Xi7SMWNubxf7MB8_fjPupg-o_RWC/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
+To start, download the raw data and features from https://drive.google.com/file/d/1XScaD4Pr3K9a9E013wQdh4qd-svdkeVe/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
 ```
 tar -xf motif_raw_data.tar.gz
 tar -xf data.tar.gz
