@@ -13,7 +13,7 @@
 # limitations under the License.
 
 #!/bin/bash
-source gbash.sh || exit
+# source gbash.sh || exit
 
 DEFINE_string experiment_dir --required "" "Specify the experimental directory"
 DEFINE_string eval_files "./seq2act/data/rico_sca/*0.tfrecord" \
@@ -26,16 +26,16 @@ DEFINE_int eval_steps 200 "Specify the eval steps"
 DEFINE_int eval_batch_size 16 "Specify the eval batch size"
 DEFINE_int decode_length 20 "Specify the decode length"
 
-gbash::init_google "$@"
+# gbash::init_google "$@"
 
 set -e
 set -x
 
-virtualenv -p python3 .
-source ./bin/activate
+# virtualenv -p python3 .
+# source ./bin/activate
 
-pip install tensorflow
-pip install -r seq2act/requirements.txt
+# pip install tensorflow
+# pip install -r seq2act/requirements.txt
 
 python -m seq2act.bin.seq2act_train_eval --exp_mode "eval" \
                                          --experiment_dir "${FLAGS_experiment_dir}" \

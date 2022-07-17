@@ -13,27 +13,27 @@
 # limitations under the License.
 
 #!/bin/bash
-source gbash.sh || exit
 
-DEFINE_string output_dir --required "" "Specify the output directory"
-DEFINE_string data_files "./seq2act/data/pixel_help/*.tfrecord" \
-                         "Specify the test data files"
-DEFINE_string checkpoint_path "./seq2act/ckpt_hparams/grounding" \
-                              "Specify the checkpoint file"
-DEFINE_string problem "pixel_help" "Specify the dataset to decode"
+# Set SCC project
+#$ -P ivc-ml
 
-gbash::init_google "$@"
+# Request 1 CPUs
+#$ -pe omp 3
+
+# Specify hard time limit
+#$ -l h_rt=01:30:00
+
+# get email when job begins
+#$ -m beas
 
 set -e
 set -x
 
-virtualenv -p python3.7 .
-source ./bin/activate
+export OMP_NUM_THREADS=${NSLOTS}
+export TF_NUM_INTEROP_THREADS=${NSLOTS}
+export TF_NUM_INTRAOP_THREADS=1
 
-pip install tensorflow
-pip install -r seq2act/requirements.txt
-
-python -m seq2act.bin.seq2act_decode --problem ${FLAGS_problem} \
-                                     --data_files "${FLAGS_data_files}" \
-                                     --checkpoint_path "${FLAGS_checkpoint_path}" \
-                                     --output_dir "${FLAGS_output_dir}"
+python -m seq2act.bin.seq2act_decode --problem "motif" \
+                                     --data_files "/projectnb/ivc-ml/aburns4/seq2act_clean_start/data/motif_ua_ut_final/*.tfrecord" \
+                                     --checkpoint_path "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/ckpt_hparams/grounding" \
+                                     --output_dir "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/decode/motif/check_old_split_7_13/"

@@ -620,7 +620,9 @@ def _get_verb_str_action_type(action_type, unused_obj_type,
 
   elif action_type == 'input':
     if platform == Platform.ANDROID:
+      # print('before verbs and actions')
       verbs_and_actions = [(_TYPE_VERBS, common.ActionTypes.INPUT)]
+      # print('after verbs and actions')
     else:
       assert False, 'Wrong Platform'
   else:
@@ -654,13 +656,17 @@ def _generate_single_object_rule_action(ui_object, target_object_id, platform):
                                                         platform)
     input_content_list = [config.LABEL_DEFAULT_VALUE_STRING]
   elif _valid_typable_object_with_name(ui_object, platform):  # for INPUT
+    # print('Valid typable object')
     (verb_str, action_type) = _get_verb_str_action_type('input',
                                                         ui_object.obj_type,
                                                         platform)
+    # print('Made it after get verb str action type') #: %s %s' % (verb_str, action_type))
     input_content_list = [
         _generate_string_seq()
         for _ in range(config.INPUT_ACTION_UPSAMPLE_RATIO)
     ]
+    print(input_content_list)
+    # print('After input content list')
   else:
     return action_result_list
   obj_desc_str = _get_obj_desc_str(action_rule, ui_object, platform=platform)
@@ -701,12 +707,16 @@ def _generate_absolute_location_rule_action(ui_object, target_object_id,
                                                         ui_object.obj_type)
     input_content_list = [config.LABEL_DEFAULT_VALUE_STRING]
   elif _valid_typable_object_with_name(ui_object):
+    # print('Valid typable object')
     (verb_str, action_type) = _get_verb_str_action_type('input',
                                                         ui_object.obj_type)
+    # print('Made it after get verb str action type') #: %s %s' % (verb_str, action_type))
     input_content_list = [
         _generate_string_seq()
         for _ in range(config.INPUT_ACTION_UPSAMPLE_RATIO)
     ]
+    print(input_content_list)
+    # print('After input content list')
   obj_desc_str = _get_obj_desc_str(
       action_rule, ui_object, context_direction_str=grid_direction_str)
   for input_content_str in input_content_list:
@@ -751,12 +761,16 @@ def _generate_relative_location_rule_action(target_object, target_object_id,
                                                         target_object.obj_type)
     input_content_list = [config.LABEL_DEFAULT_VALUE_STRING]
   elif _valid_typable_object_with_name(target_object):
+    # print('Valid typable object')
     (verb_str, action_type) = _get_verb_str_action_type('input',
                                                         target_object.obj_type)
+    # print('Made it after get verb str action type') #: %s %s' % (verb_str, action_type))
     input_content_list = [
         _generate_string_seq()
         for _ in range(config.INPUT_ACTION_UPSAMPLE_RATIO)
     ]
+    print(input_content_list)
+    # print('After input content list')
   obj_desc_str = _get_obj_desc_str(
       action_rule,
       neighbor_object,
@@ -879,9 +893,14 @@ def _generate_string_seq():
   Returns:
     A string containing multiple randomly generated words.
   """
-  input_word_num = random.randint(1, config.MAX_INPUT_WORD_NUMBER)
-  return ' '.join(resources.get_random_words(input_word_num))
-
+  # print('L896')
+  input_word_num = random.randint(1, 5)
+  # print('L898')
+  with open("/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/google-10000-english-no-swears.txt", "r") as f:
+    candidate_words = f.read().split("\n")
+  # return ' '.join(resources.get_random_words(input_word_num))
+  # print('L902')
+  return ' '.join(np.random.choice(candidate_words, input_word_num, replace=False))
 
 def _concatenate_strs(string_list):
   return ' '.join([s for s in string_list if s])

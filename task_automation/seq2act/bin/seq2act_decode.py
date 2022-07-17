@@ -18,10 +18,25 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import glob
 import os
 import numpy as np
 import tensorflow.compat.v1 as tf
-from tensorflow.compat.v1 import estimator as tf_estimator
+# from tensorflow.compat.v1 import estimator as tf_estimator
+
+
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+print('PHYSICAL DEVICES')
+print(physical_devices)
+for device in physical_devices:
+    tf.config.experimental.set_memory_growth(device, True)
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+config.gpu_options.per_process_gpu_memory_fraction = 0.9
+config.gpu_options.polling_inactive_delay_msecs = 10
+
 from seq2act.models import input as input_utils
 from seq2act.models import seq2act_estimator
 from seq2act.models import seq2act_model
@@ -46,6 +61,9 @@ def get_input(hparams, data_files):
     data_source = input_utils.DataSource.ANDROID_HOWTO
   elif FLAGS.problem == "rico_sca":
     data_source = input_utils.DataSource.RICO_SCA
+  elif FLAGS.problem == "motif":
+    data_source = input_utils.DataSource.MOTIF
+    data_files = glob.glob(data_files)
   else:
     raise ValueError("Unrecognized test: %s" % FLAGS.problem)
   tf.logging.info("Testing data_source=%s data_files=%s" % (
@@ -90,7 +108,7 @@ def _decode_common(hparams):
       continue
     decode_features[key] = features[key]
   _, _, _, references = seq2act_model.compute_logits(
-      features, hparams, mode=tf_estimator.ModeKeys.EVAL)
+      features, hparams, mode=tf.estimator.ModeKeys.EVAL)
   decode_utils.decode_n_step(seq2act_model.compute_logits,
                              decode_features, references["areas"],
                              hparams, n=20,
@@ -131,7 +149,9 @@ def ref_acc_to_string_list(task_seqs, ref_seqs, masks):
 
 def save(task_seqs, seqs, masks, tag):
   string_list = ref_acc_to_string_list(task_seqs, seqs, masks)
+  print('WITHIN SAVE')
   if not tf.gfile.Exists(FLAGS.output_dir):
+    print('WITHIN MKDIR IF CONDITIONAL')
     tf.gfile.MakeDirs(FLAGS.output_dir)
   with tf.gfile.GFile(os.path.join(FLAGS.output_dir, "decodes." + tag),
                       mode="w") as f:
@@ -174,6 +194,7 @@ def decode_fn(hparams):
             decode_dict["raw_task"], acc_metrics, decode_mask,
             label_dict, decode_dict
         ])
+        print('hello')
         ref_seq = {}
         ref_seq["gt_seq"] = np.concatenate([
             label["verb_refs"], label["obj_refs"], label["input_refs"]],
@@ -204,6 +225,7 @@ def decode_fn(hparams):
         mask_seqs.append(mask)
         i += 1
     except tf.errors.OutOfRangeError:
+      print('WENT TO EXCEPT CASE %d' % i)
       pass
     save(task_seqs, ref_seqs, mask_seqs, "joint_refs")
     save(task_seqs, act_seqs, mask_seqs, "joint_act")

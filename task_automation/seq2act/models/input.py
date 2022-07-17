@@ -32,6 +32,7 @@ class DataSource(Enum):
   RICO_SCA = 'rico_sca'
   ANDROID_HOWTO = 'android_howto'
   PIXEL_HELP = 'pixel_help'
+  MOTIF = 'motif'
 
   @staticmethod
   def from_str(label):
@@ -41,18 +42,22 @@ class DataSource(Enum):
       return DataSource.ANDROID_HOWTO
     elif label == 'pixel_help':
       return DataSource.PIXEL_HELP
+    elif label == 'motif':
+      return DataSource.MOTIF
     else:
       raise ValueError('Unrecognized source %s' % label)
 
 
 MAX_UI_OBJECT_NUM = {
     DataSource.PIXEL_HELP: 93,
+    DataSource.MOTIF: 120 # 140
 }
 
 MAX_TOKEN_NUM = {
     DataSource.ANDROID_HOWTO: 30,
     DataSource.RICO_SCA: 30,
     DataSource.PIXEL_HELP: 153,
+    DataSource.MOTIF: 200 # 20 # 149
 }
 
 # ['connect_str',  token_id(connector_str)]
@@ -167,6 +172,8 @@ def input_fn(data_files,
     data_files = [data_files]
   all_files = tf.concat(
       values=[tf.matching_files(f) for f in data_files], axis=0)
+  # print('All files:')
+  # print(all_files)
   if repeat == -1 and shuffle_files:
     all_files = tf.random.shuffle(all_files)
   if data_files[0].endswith('.recordio'):
@@ -362,6 +369,11 @@ def parse_tf_example(example_proto,
   elif data_source == DataSource.PIXEL_HELP:
     tf.logging.info('Parsing test dataset')
     feature = _process_pixel_help(feature_dict, data_source,
+                                  load_dom_dist=load_dom_dist,
+                                  load_extra=load_extra)
+  elif data_source == DataSource.MOTIF:
+    tf.logging.info('Parsing MoTIF test dataset')
+    feature = _process_motif(feature_dict, data_source,
                                   load_dom_dist=load_dom_dist,
                                   load_extra=load_extra)
   else:
@@ -758,4 +770,46 @@ def _process_pixel_help(feature_dict, data_source, load_dom_dist=False,
         feature_dict['ui_obj_str_seq'],
         [step_num, MAX_UI_OBJECT_NUM[data_source]])
   feature['data_source'] = tf.constant(2, dtype=tf.int32)
+  return feature
+
+
+def _process_motif(feature_dict, data_source, load_dom_dist=False,
+                        load_extra=False):
+  """Processes testing data feature dictionary.
+
+  Args:
+    feature_dict: feature dictionary
+    data_source: MoTIF
+  Returns:
+    A processed feature dictionary.
+  """
+  step_num = tf.size(feature_dict['verb_id_seq'])
+  feature = {'task': tf.reshape(feature_dict['instruction_word_id_seq'], [-1]),
+             'obj_text': tf.reshape(feature_dict['ui_obj_word_id_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source], MAX_TOKEN_NUM[data_source]]),
+             'obj_type': tf.reshape(feature_dict['ui_obj_type_id_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source]]),
+             'obj_clickable': tf.reshape(feature_dict['ui_obj_clickable_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source]]),
+             'obj_screen_pos': (tf.reshape(tf.concat([tf.reshape(feature_dict['ui_obj_cord_x_seq'], [step_num, -1, 2]),
+                                                      tf.reshape(feature_dict['ui_obj_cord_y_seq'], [step_num, -1, 2])],
+                                                      axis=2), 
+                                          [step_num, MAX_UI_OBJECT_NUM[data_source], 4])),
+             'obj_dom_pos': tf.reshape(feature_dict['ui_obj_dom_location_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source], 3]),
+             'verbs': tf.reshape(feature_dict['verb_id_seq'], [step_num]),
+             'objects': tf.reshape(feature_dict['ui_target_id_seq'], [step_num]),
+             'input_refs':
+                # tf.zeros([step_num, 2], tf.int32),
+                tf.reshape(feature_dict['input_str_position_seq'], [step_num, 2]),
+             'obj_refs':
+                # tf.zeros([step_num, 2], tf.int32),
+                tf.reshape(feature_dict['obj_desc_position_seq'], [step_num, 2]),
+             'verb_refs': tf.reshape(feature_dict['verb_str_position_seq'], [step_num, 2]),
+              # tf.zeros([step_num, 2], tf.int32),
+             'agreement_count': tf.constant(100, dtype=tf.int32),
+             'rule': tf.constant(5, dtype=tf.int32), 'data_source': tf.constant(2, dtype=tf.int32)}
+  
+  if load_dom_dist:
+    feature['obj_dom_dist'] = tf.reshape(feature_dict['ui_obj_dom_distance'], [step_num, MAX_UI_OBJECT_NUM[data_source], MAX_UI_OBJECT_NUM[data_source]])
+  if load_extra:
+    feature['task_id'] = tf.constant('empty_task_id', dtype=tf.string)
+    feature['raw_task'] = tf.reshape(tf.strings.reduce_join(feature_dict['instruction_str']), []) # ...str'][0]
+    feature['obj_raw_text'] = tf.reshape(feature_dict['ui_obj_str_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source]])
   return feature

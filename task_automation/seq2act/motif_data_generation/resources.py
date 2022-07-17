@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2022 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ flags = tf.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string(
-    "vocab_file", "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/commoncrawl_rico_vocab_subtoken_44462",
+    "vocab_file", "commoncrawl_rico_vocab_subtoken_44462",
     "Full path to the directory containing the data files for a set of tasks.")
 flags.DEFINE_string(
-    "input_candiate_file", "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/ascii_alphanumeric.txt",
+    "input_candidate_file", "",
     "Full path to the directory for saving the tf record file.")
 
 
@@ -76,17 +76,13 @@ def ids_to_tokens(id_list):
 
 
 def _get_candidate_words():
-  # with lock:
-  # global _candidate_words
-  # print('within candidate words')
-  # print(_candidate_words)
-  # if not _candidate_words:
-  candidate_file = FLAGS.input_candidate_file
-  print(candidate_file)
-  print('hello')
-  with gfile.Open(candidate_file, "r") as f:
-    _candidate_words = f.read().split("\n")
-  return _candidate_words
+  with lock:
+    global _candidate_words
+    if not _candidate_words:
+      candidate_file = FLAGS.input_candidate_file
+      with gfile.Open(candidate_file, "r") as f:
+        _candidate_words = f.read().split("\n")
+    return _candidate_words
 
 
 def get_random_words(sample_size):
