@@ -50,14 +50,14 @@ class DataSource(Enum):
 
 MAX_UI_OBJECT_NUM = {
     DataSource.PIXEL_HELP: 93,
-    DataSource.MOTIF: 120 # 140
+    DataSource.MOTIF: 140
 }
 
 MAX_TOKEN_NUM = {
     DataSource.ANDROID_HOWTO: 30,
     DataSource.RICO_SCA: 30,
     DataSource.PIXEL_HELP: 153,
-    DataSource.MOTIF: 200 # 20 # 149
+    DataSource.MOTIF: 200
 }
 
 # ['connect_str',  token_id(connector_str)]
@@ -172,8 +172,7 @@ def input_fn(data_files,
     data_files = [data_files]
   all_files = tf.concat(
       values=[tf.matching_files(f) for f in data_files], axis=0)
-  # print('All files:')
-  # print(all_files)
+
   if repeat == -1 and shuffle_files:
     all_files = tf.random.shuffle(all_files)
   if data_files[0].endswith('.recordio'):
@@ -796,13 +795,10 @@ def _process_motif(feature_dict, data_source, load_dom_dist=False,
              'verbs': tf.reshape(feature_dict['verb_id_seq'], [step_num]),
              'objects': tf.reshape(feature_dict['ui_target_id_seq'], [step_num]),
              'input_refs':
-                # tf.zeros([step_num, 2], tf.int32),
                 tf.reshape(feature_dict['input_str_position_seq'], [step_num, 2]),
              'obj_refs':
-                # tf.zeros([step_num, 2], tf.int32),
                 tf.reshape(feature_dict['obj_desc_position_seq'], [step_num, 2]),
              'verb_refs': tf.reshape(feature_dict['verb_str_position_seq'], [step_num, 2]),
-              # tf.zeros([step_num, 2], tf.int32),
              'agreement_count': tf.constant(100, dtype=tf.int32),
              'rule': tf.constant(5, dtype=tf.int32), 'data_source': tf.constant(2, dtype=tf.int32)}
   
@@ -810,6 +806,6 @@ def _process_motif(feature_dict, data_source, load_dom_dist=False,
     feature['obj_dom_dist'] = tf.reshape(feature_dict['ui_obj_dom_distance'], [step_num, MAX_UI_OBJECT_NUM[data_source], MAX_UI_OBJECT_NUM[data_source]])
   if load_extra:
     feature['task_id'] = tf.constant('empty_task_id', dtype=tf.string)
-    feature['raw_task'] = tf.reshape(tf.strings.reduce_join(feature_dict['instruction_str']), []) # ...str'][0]
+    feature['raw_task'] = tf.reshape(tf.strings.reduce_join(feature_dict['instruction_str']), [])
     feature['obj_raw_text'] = tf.reshape(feature_dict['ui_obj_str_seq'], [step_num, MAX_UI_OBJECT_NUM[data_source]])
   return feature

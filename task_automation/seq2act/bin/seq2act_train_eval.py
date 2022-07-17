@@ -20,7 +20,6 @@ from __future__ import print_function
 
 from tensor2tensor.utils import trainer_lib
 import tensorflow.compat.v1 as tf
-# tf.disable_eager_execution() 
 from tensorflow.compat.v1 import estimator as tf_estimator
 
 from seq2act.models import input as input_utils

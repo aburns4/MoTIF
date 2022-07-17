@@ -858,11 +858,9 @@ def get_nearby_name(chosen, ui_obj_list):
             if ui.obj_name:
                 if ui.dom_location[0] == chosen.dom_location[0]:
                     if abs(ui.dom_location[1] - chosen.dom_location[1]) < 2 and abs(ui.dom_location[2] - chosen.dom_location[2]) < 2:
-                        # print('found option')
                         x = [w for w in ui.word_sequence if _is_ascii(w)]
                         return ' '.join(x)
     except:
-        # print('used resource id')
         return process_resource_id(chosen.resource_id)
     return process_resource_id(chosen.resource_id)
 
@@ -1058,9 +1056,9 @@ def load_all_actions(ui_objs, ui_target_idxs, trace_path, gestures):
 
         # THESE UPDATES MAKE IT GOAL OR STEP BY STEP
         action = common.Action(
-            instruction_str=instr, # trace_task,
-            verb_str=verb_str, # '',
-            obj_desc_str=obj_desc_str, # '',
+            instruction_str=instr,
+            verb_str=verb_str,
+            obj_desc_str=obj_desc_str,
             input_content_str=input_content_str,
             action_type=action_type,
             action_rule=common.ActionRules.REAL,

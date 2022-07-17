@@ -366,20 +366,7 @@ def get_word_statistics(file_path, motif=True, screen_w=None, screen_h=None):
   """
   max_word_num = 0
   max_word_length = 0
-  # if motif:
-  #     if 'single_action' in file_path:
-  #         dim_path = file_path.replace('.json', '_dims.txt')
-  #         with open(dim_path) as f:
-  #             data = f.readlines()
-  #             data = data[0].strip().split(',')
-  #             screen_vh_width, screen_vh_height = [int(data[0]), int(data[1])]
-  #     else:
-  #         file_stem = "/".join(file_path.split('/')[:-2])
-  #         metadata_path = file_stem + '/metadata.json'
-  #         with open(metadata_path) as f:
-  #             metadata = json.load(f)
-  #             view_paths = [file_stem + '/view_hierarchies/' + x for x in metadata['views']]
-  #         screen_vh_width, screen_vh_height = get_screen_dims(view_paths)
+
   leaf_nodes = get_view_hierarchy_list(file_path, screen_w, screen_h)
   for view_hierarchy_object in leaf_nodes:
     word_sequence = view_hierarchy_object.uiobject.word_sequence

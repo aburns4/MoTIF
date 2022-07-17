@@ -284,8 +284,6 @@ def _filter_synthetic_by_obj_type(ui_object_list,
     if (ui_object_list[action.target_obj_idx].obj_type not in _FREQ_OBJ_TYPE or
         action.action_type == common.ActionTypes.INPUT):
       infreq_obj_actions.append(action)
-      # if action.action_type == common.ActionTypes.INPUT:
-      #   print('Found type event')
     else:
       freq_obj_actions.append(action)
   if len(infreq_obj_actions) > max_infreq_num:
@@ -375,8 +373,7 @@ def _get_full_feature_dict(dataset_type, file_path, max_word_num,
       view_hierarchy_leaf_nodes,
       action_rules=('single', 'screen_loc', 'neighbor_loc', 'swipe'))
   types = [a.action_type.value for a in actions]
-  # print('Action types before filtering')
-  # print(types)
+
   if actions and _FILTER_ACTIONS_BY_NAME:
     actions = _filter_synthetic_by_name_overlap(
         actions,
@@ -384,14 +381,12 @@ def _get_full_feature_dict(dataset_type, file_path, max_word_num,
         config.MAX_OBJ_NAME_WORD_NUM,
         overlap_threshold=0.5)
   types = [a.action_type.value for a in actions]
-  # print('Action types after name filtering')
-  # print(types)
+
   if actions and _FILTER_ACTION_BY_TYPE:
     actions = _filter_synthetic_by_obj_type(
         ui_obj_list, actions, max_num_syn_per_screen=20)
   types = [a.action_type.value for a in actions]
-  # print('Action types after type filtering')
-  # print(types)
+
   padded_syn_feature_dict = synthetic_action_generator.get_synthetic_feature_dict(
       actions, max_word_num, max_word_length)
   full_feature = {}

@@ -76,14 +76,7 @@ def ids_to_tokens(id_list):
 
 
 def _get_candidate_words():
-  # with lock:
-  # global _candidate_words
-  # print('within candidate words')
-  # print(_candidate_words)
-  # if not _candidate_words:
   candidate_file = FLAGS.input_candidate_file
-  print(candidate_file)
-  print('hello')
   with gfile.Open(candidate_file, "r") as f:
     _candidate_words = f.read().split("\n")
   return _candidate_words

@@ -312,9 +312,9 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                 instr, action_type, input_content_str, verb_str, obj_desc_str, was_missing = real_action_generator.get_type_info(chosen, ui_obj_list)
                 action_instrs.append(instr)
                 action = common.Action(
-                    instruction_str=instr, # trace_task,
-                    verb_str=verb_str, # '',
-                    obj_desc_str=obj_desc_str, # '',
+                    instruction_str=instr,
+                    verb_str=verb_str,
+                    obj_desc_str=obj_desc_str,
                     input_content_str=input_content_str,
                     action_type=action_type,
                     action_rule=common.ActionRules.REAL,
@@ -492,7 +492,6 @@ def clean_idxs(all_view_uids, all_text, all_view_actions, all_chosen_uis):
 
         if all_view_uids[i] in kept_uids and FLAGS.dedup_cycles:
             # start over from cycle idx
-            # print('cycle')
             start_slice_idx = kept_uids.index(all_view_uids[i])
             end_slice_idx = i
             keep_idxs = keep_idxs[:start_slice_idx] 
@@ -616,7 +615,6 @@ def main():
     print(FLAGS.dedup_cycles)
     for i in range(len(traces)):
         trace = traces[i]
-        # print(trace)
         if i % 1000 == 0:
             print(i)
 
@@ -631,12 +629,10 @@ def main():
             if len(final_views_used) > 0:
                 (fd, uis) = get_feat_dict(app, trace, final_views_used, final_tidxs, action_instrs, actions, action_class, ui_types, chosen_uis_text, ui_objs, screen_bboxes, view_bboxes, all_gestures, im_w, im_h, vh_w, vh_h, scale_x, scale_y)
             else:
-                # print('Zero tsteps kept %s' % trace)
                 continue
                 
             with open(os.path.join(FLAGS.save_dir, trace + '.json'), 'w') as f:
                 json.dump(fd, f)
         except:
-            # print('Exception %s' % trace)
             continue
 main()
