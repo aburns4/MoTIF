@@ -11,7 +11,7 @@ flags = tf.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string(
-    "data_dir", "traces_02_14_21", # /projectnb/ivc-ml/aburns4/stage2/
+    "data_dir", "traces_02_14_21",
     "Full path to the directory containing the data files for a set of tasks.")
 flags.DEFINE_string(
     "save_dir", "processed_motif_deduped",
