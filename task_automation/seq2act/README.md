@@ -1,13 +1,24 @@
 # Seq2act: Mapping Natural Language Instructions to Mobile UI Action Sequences
-This repository contains the code for the models and the experimental framework for "Mapping Natural Language Instructions to Mobile UI Action Sequences" by Yang Li, Jiacong He, Xin Zhou, Yuan Zhang, and Jason Baldridge, which is accepted in 2020 Annual Conference of the Association for Computational Linguistics (ACL 2020).
+This repository contains the modified code for the models and the experimental framework for "Mapping Natural Language Instructions to Mobile UI Action Sequences" by Yang Li, Jiacong He, Xin Zhou, Yuan Zhang, and Jason Baldridge, which is accepted in 2020 Annual Conference of the Association for Computational Linguistics (ACL 2020). This model is one of the baselines used to benchmark our mobile app task automation problem.
 
 ## Datasets
+We released the AndroidHowTo tfrecords directly because it is time consuming and memory heavy to process that data from scratch. The PixelHelp tfrecords can be accessed here from the original Seq2Act GitHub. 
 
-Our datasets and data pipelines are released! Please note that we had to 
-re-create two of these datasets (AndroidHowTo and PixelHelp) based on public
-sources so that they can be opensourced. The re-created datasets led to some 
-small differences with the experimental results as those in the paper. Please 
-see details of the datasets [here](https://github.com/google-research/google-research/blob/master/seq2act/data_generation/README.md).
+For RicoSCA and MoTIF, we provide code to process the tfrecords yourself because they end up being large files. Here is how you do it:
+
+For RicoSCA, download the original raw data from here and place it under `data/rico_sca/raw`; this raw folder should be the "combined" folder you get with the .json and .jpg Rico files after unzipping the linked Rico data. Then, run the following. NOTE: The authors of Seq2Act never released the text file containing input candidate words for their synthetic typing events. As a result, I chose a list of the top 10k English non-swear words. Feel free to change this based on your needs or design choices.
+
+```
+create_rico_sca.sh
+```
+
+For MoTIF, if you want to start from scratch or modify the original data processing, first download the raw data here and place it in the `data/motif/raw` directory. Next, run the `all_in_one_motif_processing.py` file to generate json files that contain information on each interaction trace in MoTIF. In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. You can skip this step and download our already processed jsons here.
+
+Once you have the cleaned data, unzip it in the `motif_data_generation` folder and run the following command
+
+```
+make_motif_tfrecords.sh
+```
 
 ## Setup
 
