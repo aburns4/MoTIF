@@ -14,34 +14,18 @@
 
 #!/bin/bash
 
-# virtualenv -p python3.7 .
-# source ./bin/activate
-
-# pip install -r seq2act/data_generation/requirements.txt
-# Set SCC project
-#$ -P ivc-ml
-
-# Request 1 CPUs
-#$ -pe omp 1
-
-# Specify hard time limit
-#$ -l h_rt=01:30:00
-
-# get email when job begins
-#$ -m beas
-
 set -e
 set -x
 
-mkdir -p ${PWD}"/seq2act/data/rico_sca/ua_ut_tfexample_final"
+mkdir -p ${PWD}"/data/rico_sca/ua_ut_tfexample_final"
 
-python -m seq2act.data_generation.create_android_synthetic_dataset \
---input_dir=${PWD}"/seq2act/data/rico_sca/raw" \
---output_dir=${PWD}"/seq2act/data/rico_sca/ua_ut_tfexample_final" \
---filter_file=${PWD}"/seq2act/data_generation/ricosca_ua_ut_filter.txt" \
+python -m data_generation.create_android_synthetic_dataset \
+--input_dir=${PWD}"/data/rico_sca/raw" \
+--output_dir=${PWD}"/data/rico_sca/ua_ut_tfexample_final" \
+--filter_file=${PWD}"/data_generation/ricosca_ua_ut_filter.txt" \
 --thread_num=10 \
 --shard_num=10 \
---vocab_file=${PWD}"/seq2act/data_generation/commoncrawl_rico_vocab_subtoken_44462" \
---input_candiate_file=${PWD}"/seq2act/data_generation/google-10000-english-no-swears.txt" \
+--vocab_file=${PWD}"/data_generation/commoncrawl_rico_vocab_subtoken_44462" \
+--input_candiate_file=${PWD}"/data_generation/google-10000-english-no-swears.txt" \
 --logtostderr
 
