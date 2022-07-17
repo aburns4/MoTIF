@@ -1004,7 +1004,7 @@ def load_all_actions(ui_objs, ui_target_idxs, trace_path, gestures):
     action_list = []
     trace_to_task = {}
     trace_id = trace_path.split('/')[-1]
-    with open('/projectnb/ivc-ml/aburns4/stage2/traces_02_14_21/tasknames.csv') as f:
+    with open('../data/motif/raw/traces_02_14_21/tasknames.csv') as f:
         trace_map = f.readlines()
         trace_map = [x.strip().split(" ") for x in trace_map]
         for entry in trace_map:

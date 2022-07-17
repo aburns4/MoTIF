@@ -28,10 +28,10 @@ flags = tf.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string(
-    "vocab_file", "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/commoncrawl_rico_vocab_subtoken_44462",
+    "vocab_file", "commoncrawl_rico_vocab_subtoken_44462",
     "Full path to the directory containing the data files for a set of tasks.")
 flags.DEFINE_string(
-    "input_candiate_file", "/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/ascii_alphanumeric.txt",
+    "input_candiate_file", "google-10000-english-no-swears.txt",
     "Full path to the directory for saving the tf record file.")
 
 

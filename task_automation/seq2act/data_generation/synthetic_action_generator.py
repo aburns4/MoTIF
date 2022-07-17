@@ -893,13 +893,10 @@ def _generate_string_seq():
   Returns:
     A string containing multiple randomly generated words.
   """
-  # print('L896')
   input_word_num = random.randint(1, 5)
-  # print('L898')
-  with open("/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/data_generation/google-10000-english-no-swears.txt", "r") as f:
+  with open("google-10000-english-no-swears.txt", "r") as f:
     candidate_words = f.read().split("\n")
-  # return ' '.join(resources.get_random_words(input_word_num))
-  # print('L902')
+
   return ' '.join(np.random.choice(candidate_words, input_word_num, replace=False))
 
 def _concatenate_strs(string_list):
