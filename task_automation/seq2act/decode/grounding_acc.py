@@ -1,5 +1,5 @@
 # replace decode_folder below with the appropriate folder 
-with open('motif/decode_folder/decodes.joint_act') as f:
+with open('full_path/motif/decode_folder/decodes.joint_act') as f:
     results = f.readlines()
     results = [x.strip() for x in results]
 
