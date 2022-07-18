@@ -1,16 +1,17 @@
 # Seq2act: Mapping Natural Language Instructions to Mobile UI Action Sequences
-This repository contains the modified code for the models and the experimental framework for "Mapping Natural Language Instructions to Mobile UI Action Sequences" by Yang Li, Jiacong He, Xin Zhou, Yuan Zhang, and Jason Baldridge, which is accepted in 2020 Annual Conference of the Association for Computational Linguistics (ACL 2020). This model is one of the baselines used to benchmark our mobile app task automation problem.
+This repository contains the modified code for the models and the experimental framework for "Mapping Natural Language Instructions to Mobile UI Action Sequences" by Yang Li, Jiacong He, Xin Zhou, Yuan Zhang, and Jason Baldridge (ACL 2020). This model is one of the baselines used to benchmark our mobile app task automation problem.
 
 ## Datasets
 We release the AndroidHowTo [tfrecords](https://drive.google.com/file/d/1pWUH6of95LNzc6E774Cyq6pK7yP96tCm/view?usp=sharing) directly because it is time consuming and memory heavy to process that data from scratch. The PixelHelp tfrecords can be accessed [here](https://github.com/google-research-datasets/seq2act/tree/master/data/pixel_help) from the original Seq2Act GitHub. 
 
 For RicoSCA and MoTIF, we provide code to process the tfrecords yourself because they end up being large files. Here is how you do it:
 
-For RicoSCA, download the original [raw data](https://storage.googleapis.com/crowdstf-rico-uiuc-4540/rico_dataset_v0.1/unique_uis.tar.gz) and place it under `data/rico_sca/raw`; this raw folder should be the "combined" folder you get with the .json and .jpg Rico files after unzipping the linked Rico data. Then, run the following. NOTE: The authors of Seq2Act never released the text file containing input candidate words for their synthetic typing events. As a result, I chose a list of the top 10k English non-swear words. COnsequently, their exact experiments are not reproduceable from scratch. Feel free to change this file based on your needs or design choices.
+For RicoSCA, download the original [raw data](https://storage.googleapis.com/crowdstf-rico-uiuc-4540/rico_dataset_v0.1/unique_uis.tar.gz) and place it under `data/rico_sca/raw`; this raw folder should be the "combined" folder you get with the .json and .jpg Rico files after unzipping the linked Rico data. Then, run the following.
 
 ```
 sh create_rico_sca.sh
 ```
+ NOTE: The authors of Seq2Act never released the text file containing input candidate words for their synthetic typing events. As a result, I chose a list of the top 10k English non-swear words. COnsequently, their exact experiments are not reproduceable from scratch. Feel free to change this file based on your needs or design choices.
 
 The bash script has different flags you can change as you need. The filter files we provide create different splits of RicoSCA data for evaluating MoTIF; e.g., the ua_ut filter creates a split of the training data for evaluating an unseen app and unseen task test split. See the `data_generation` folder for more info.
 
