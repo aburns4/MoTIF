@@ -1,7 +1,5 @@
 # A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility
-This repository contains the code for the models and the experimental framework for "A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility" Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer, which is accepted in the proceedings of the European Conference on Computer Vision (ECCV) 2022.
-
-Our GitHub repository contains the code and data processing for our paper's task feasibility and task automation experiments. Please let us know if you have any questions or issues. 
+This repository contains the code for the data processing, models, and experimental framework for "A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility" Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer, which is accepted in the proceedings of the European Conference on Computer Vision (ECCV) 2022.
 
 ## MoTIF Dataset
 If you want the most general form of the interaction data, you can access the aggregated data here! This contains the rendered app screens, app view hierarchies, raw interaction sequences, processed jsons containing cleaned action sequences (with action classes, both high-level and low-level instruction, element bounding boxes, etc.), and task feasibility annotations.
