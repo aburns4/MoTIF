@@ -66,14 +66,11 @@ To obtain performance values, run the following with the appropriate `.decode_ac
 python decode.motif.grounding_acc.py
 ```
 
-We release checkpoints for the [unseen app unseen task]() split and [seen app unseen task]() split. See more information on these splits in `motif_data_generation`.
+We release [checkpoints]() for the unseen app unseen task split and seen app unseen task split. See more information on these splits in `motif_data_generation`.
 
-NOTE: You can also try out the original Seq2Act pre-trained checkpoint for end-to-end grounding
-by downloading the checkpoint [here](https://storage.googleapis.com/gresearch/seq2act/ccg3-transformer-6-dot_product_attention-lr_0.003_rd_0.1_ad_0.1_pd_0.2.tar.gz). The key differences between this model and the model I trained on seen apps and unseen tasks is that their model trained on different typing commands with an unknown distribution (as previously mentioned, they did not release the file required to recreate those commands).
+The above checkpoint folder also contains the orginal trained model checkpoints released from Seq2Act. NOTE: The key differences between this model and the model I trained on seen apps and unseen tasks is that their model trained on different typing commands with an unknown distribution (as previously mentioned, they did not release the file required to recreate those commands). Additionally, they were able to train with a larger batch size.
 
-Once downloaded, you can extract the checkpoint files from the zip file, which 
-result in 1 file named 'checkpoint' and 3 files with "model.ckpt-250000*".
-You can then move these files to a folder under `ckpt_params` for decoding. If you use any of the materials, please cite the following paper.
+If you use any of the materials, please cite our paper and the following paper.
 
 ```
 @inproceedings{seq2act,
