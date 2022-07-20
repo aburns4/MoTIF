@@ -4,7 +4,7 @@ This repository contains the code for the data processing, models, and experimen
 ## MoTIF Dataset
 If you want the most general form of the interaction data, you can access the aggregated data here! This contains the rendered app screens, app view hierarchies, raw interaction sequences, processed jsons containing cleaned action sequences (with action classes, both high-level and low-level instruction, element bounding boxes, etc.), and task feasibility annotations.
 
-<img src="https://github.com/aburns4/MoTIF/blob/main/motif.jpg" alt="Graphic illustrating feasible and infeasible MoTIF mobile app action sequences" width="700">
+<img src="https://github.com/aburns4/MoTIF/blob/main/motif.jpg" alt="Graphic illustrating feasible and infeasible MoTIF mobile app action sequences" width="750" class="center">
  
 Note that each trace subdirectory contains a `task_type.txt` text file. There are three things that can appear here: "DEMONSTRATION", "EXPLORE EVERYTHING", or "LANGUAGE ANNOTATION." The exploration traces were collected in the process of trying to generate state-action space graphs, they capture more unique states but do not have paired language data. The demonstration and language annotation folders have a `task.txt` text file which contains the demonstration's natural language instruction or all written tasks for the app during language collection.
 
