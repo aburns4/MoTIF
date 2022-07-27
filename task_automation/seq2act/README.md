@@ -15,7 +15,7 @@ sh create_rico_sca.sh
 
 The bash script has different flags you can change as you need. The filter files we provide create different splits of RicoSCA data for evaluating MoTIF; e.g., the ua_ut filter creates a split of the training data for evaluating an unseen app and unseen task test split. See the `data_generation` folder for more info.
 
-For MoTIF, if you want to start from scratch or modify the original data processing, first download the two raw data folders [here](https://drive.google.com/file/d/1XScaD4Pr3K9a9E013wQdh4qd-svdkeVe/view?usp=sharing) (rename this first folder from "raw" to "traces_02_14_21") and [here]() (should be already named "traces_03_17_21") and place it in the `data/motif/raw` directory. Next, run
+For MoTIF, if you want to start from scratch or modify the original data processing, first download the two raw data folders [here](https://drive.google.com/file/d/1XScaD4Pr3K9a9E013wQdh4qd-svdkeVe/view?usp=sharing) (rename this first folder from "raw" to "traces_02_14_21") and [here](https://drive.google.com/file/d/1Yb8l3CSJkeGw62_GZIb_9Lwo2FYiu-GC/view?usp=sharing) (should be already named "traces_03_17_21") and place it in the `data/motif/raw` directory. Next, run
 
 ```
 sh dedup.sh
@@ -66,7 +66,7 @@ To obtain performance values, run the following with the appropriate `.decode_ac
 python decode.motif.grounding_acc.py
 ```
 
-We release [checkpoints]() for the unseen app unseen task split and seen app unseen task split. See more information on these splits in `motif_data_generation`.
+We release [checkpoints](https://drive.google.com/file/d/16y6EO0FE51nDop_N5yVVfOhA2e79hvwN/view?usp=sharing) for the unseen app unseen task split and seen app unseen task split. See more information on these splits in `motif_data_generation`.
 
 The above checkpoint folder also contains the orginal trained model checkpoints released from Seq2Act. NOTE: The key differences between this model and the model I trained on seen apps and unseen tasks is that their model trained on different typing commands with an unknown distribution (as previously mentioned, they did not release the file required to recreate those commands). Additionally, they were able to train with a larger batch size.
 
