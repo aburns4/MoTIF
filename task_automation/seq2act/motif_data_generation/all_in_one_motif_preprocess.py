@@ -263,6 +263,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
     text_so_far = []
     kept_target_idxs = []
     kept_actions = []
+    all_leaf_nodes = []
     added_back = False
     for view_idx in kept_view_idxs:
         view_path = all_views[view_idx]
@@ -307,7 +308,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                 text_so_far.append(ele.uiobject.obj_name.lower())
                 
                 chosen = ele.uiobject
-
+                
                 chosen_uis.append(chosen)
                 views_used.append(view_path)
                 # add in index of correct element associated with type event
@@ -323,6 +324,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                     action_rule=common.ActionRules.REAL,
                     target_obj_idx=idx) # correct text element idx
                 kept_actions.append(action)
+                all_leaf_nodes.append(view_hierarchy_leaf_nodes)
                 added_back = True
             idx+=1
 
@@ -353,6 +355,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                 kept_target_idxs.append(view_target_idx)
                 action_instrs.append(view_action.instruction_str)
                 kept_actions.append(view_action)
+            all_leaf_nodes.append(view_hierarchy_leaf_nodes)
 
     assert len(chosen_uis) == len(action_instrs) 
 
@@ -363,7 +366,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
             (chosen_uis, views_used, action_instrs,
                 kept_target_idxs, kept_actions) = remove_dups(dup_slices, chosen_uis, views_used, action_instrs, kept_target_idxs, kept_actions)
 
-    assert len(chosen_uis) == len(action_instrs) 
+    assert len(chosen_uis) == len(action_instrs) == len(all_leaf_nodes)
 
     view_bboxes = []
     screen_bboxes = []
@@ -401,7 +404,6 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                 chosen_uis_text.append(entry.obj_name.lower())
             else:
                 chosen_uis_text.append(entry.text)
-
     return action_class, action_instrs, ui_types, chosen_uis_text, view_bboxes, screen_bboxes, views_used, kept_target_idxs, chosen_uis, kept_actions
 
 def make_clean_trace(app, trace_id):
@@ -627,7 +629,6 @@ def main():
         app = glob.glob(os.path.join(FLAGS.data_dir, '*', trace))[0]
         app = app.split('/')[-2]
 
-        # try:
         (all_views, all_gestures, saved_view_idxs, kept_view_uids, 
             kept_view_actions, kept_chosen_objs, target_idxs, im_w, im_h, vh_w, vh_h, scale_x, scale_y) = make_clean_trace(app, trace)
         (action_class, action_instrs, ui_types, chosen_uis_text, 
@@ -640,6 +641,4 @@ def main():
 
         with open(os.path.join(FLAGS.save_dir, trace + '.json'), 'w') as f:
             json.dump(fd, f)
-        # except:
-        #     continue
 main()

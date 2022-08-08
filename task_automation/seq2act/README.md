@@ -22,7 +22,7 @@ sh dedup.sh
 ```
 
 to generate json files that contain information on each interaction trace in MoTIF. 
-In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1sX6WJjuHAC4rTYERv4gyoT-kLZc5A4ey/view?usp=sharing).
+In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1k5lfrD82TILQt-mlp96gvNObHmxq9xqG/view?usp=sharing).
 
 Once you have the cleaned data, unzip it in the `motif_data_generation` folder and run the following command
 
@@ -70,9 +70,16 @@ We release [checkpoints](https://drive.google.com/file/d/16y6EO0FE51nDop_N5yVVfO
 
 The above checkpoint folder also contains the orginal trained model checkpoints released from Seq2Act. NOTE: The key differences between this model and the model I trained on seen apps and unseen tasks is that their model trained on different typing commands with an unknown distribution (as previously mentioned, they did not release the file required to recreate those commands). Additionally, they were able to train with a larger batch size.
 
-If you use any of the materials, please cite our paper and the following paper.
+If you use any of the materials, please cite our paper and the Seq2Act paper.
 
 ```
+@inproceedings{burns2022motifvln,
+      title={A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility}, 
+      author={Andrea Burns and Deniz Arsan and Sanjna Agrawal and Ranjitha Kumar and Kate Saenko and Bryan A. Plummer},
+      booktitle={European Conference on Computer Vision (ECCV)},
+      year={2022}
+}
+
 @inproceedings{seq2act,
   title = {Mapping Natural Language Instructions to Mobile UI Action Sequences},
   author = {Yang Li and Jiacong He and Xin Zhou and Yuan Zhang and Jason Baldridge},
