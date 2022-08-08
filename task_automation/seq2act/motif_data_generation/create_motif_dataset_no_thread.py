@@ -111,7 +111,7 @@ def get_kept_view_hierarchies(traces):
     vh_to_load = []
     screen_dims = []
     for tr in traces:
-        json_path = os.path.join('processed_motif_deduped_3', tr + '.json')
+        json_path = os.path.join('seq2act_debug', tr + '.json') # processed_motif_deduped_3
         if os.path.exists(json_path): 
             with open(json_path) as f:
                 trace_info = json.load(f)
@@ -481,7 +481,7 @@ def _write_dataset(dataset_type, input_dir, output_dir, traces, max_word_num,
         futures = []
 
         for tr in sorted(traces):
-            file_path = os.path.join('processed_motif_deduped_3', tr + '.json')
+            file_path = os.path.join('seq2act_debug', tr + '.json') # processed_motif_deduped_3
             shard = num_processed_files % FLAGS.num_shards
             
             if os.path.exists(file_path):               
@@ -520,13 +520,13 @@ def main(_):
     if not os.path.isdir(FLAGS.output_dir):
         os.mkdir(FLAGS.output_dir)
 
-    with open('post_eccv_motif_app_seen_task_unseen_all.json') as f:
+    with open('eccv_motif_app_seen_task_unseen_all.json') as f:
         traces_to_process_su_all = json.load(f)['test']
-    with open('post_eccv_motif_app_seen_task_unseen_curr.json') as f:
+    with open('eccv_motif_app_seen_task_unseen_curr.json') as f:
         traces_to_process_su_curr = json.load(f)['test']
-    with open('post_eccv_motif_app_unseen_task_unseen.json') as f:
+    with open('eccv_motif_app_unseen_task_unseen.json') as f:
         traces_to_process_uu = json.load(f)['test']
-    with open('post_eccv_motif_app_unseen_task_seen.json') as f:
+    with open('eccv_motif_app_unseen_task_seen.json') as f:
         traces_to_process_us = json.load(f)['test']
 
     if FLAGS.split == 'all':

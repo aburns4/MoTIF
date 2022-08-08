@@ -11,10 +11,10 @@ flags = tf.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string(
-    "data_dir", "traces_02_14_21",
+    "data_dir", "/projectnb/ivc-ml/aburns4/stage2/traces_02_14_21",
     "Full path to the directory containing the data files for a set of tasks.")
 flags.DEFINE_string(
-    "save_dir", "processed_motif_deduped",
+    "save_dir", "seq2act_debug",
     "Full path to the directory for saving the tf record file.")
 flags.DEFINE_bool(
     "dedup_cycles", True,
@@ -263,6 +263,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
     text_so_far = []
     kept_target_idxs = []
     kept_actions = []
+    added_back = False
     for view_idx in kept_view_idxs:
         view_path = all_views[view_idx]
         view_chosen = all_chosen_objs[view_idx]
@@ -291,6 +292,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
             continue
 
         # first check if any typing occurred
+        idx = 0
         for ele in view_hierarchy_leaf_nodes:
             if ele.uiobject.obj_type.value == 4 and ele.uiobject.obj_name is not None:
                 # EDITTEXT Type
@@ -308,7 +310,8 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
 
                 chosen_uis.append(chosen)
                 views_used.append(view_path)
-                kept_target_idxs.append(view_target_idx)
+                # add in index of correct element associated with type event
+                kept_target_idxs.append(idx)
                 instr, action_type, input_content_str, verb_str, obj_desc_str, was_missing = real_action_generator.get_type_info(chosen, ui_obj_list)
                 action_instrs.append(instr)
                 action = common.Action(
@@ -318,8 +321,10 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                     input_content_str=input_content_str,
                     action_type=action_type,
                     action_rule=common.ActionRules.REAL,
-                    target_obj_idx=view_target_idx)
+                    target_obj_idx=idx) # correct text element idx
                 kept_actions.append(action)
+                added_back = True
+            idx+=1
 
         if not missing:
             # get chosen object and its index in list of ui objects
@@ -342,6 +347,7 @@ def get_actions(all_views, all_gestures, all_actions, all_chosen_objs, kept_view
                         kept_actions.append(view_action)
             else:
                 # not swiping, don't need to check
+                # if there was a typing event prior to this, this action still needs to be captured
                 chosen_uis.append(view_chosen)
                 views_used.append(view_path)
                 kept_target_idxs.append(view_target_idx)
@@ -593,19 +599,19 @@ def main():
         os.mkdir(FLAGS.save_dir)
 
     samples_clean = {}
-    with open('motif_app_seen_task_unseen_curr.json') as f:
+    with open('eccv_motif_app_seen_task_unseen_curr.json') as f:
         splits_1 = json.load(f)
         splits_1 = set(splits_1['train'] + splits_1['test'])
     
-    with open('motif_app_seen_task_unseen_all.json') as f:
+    with open('eccv_motif_app_seen_task_unseen_all.json') as f:
         splits_2 = json.load(f)
         splits_2 = set(splits_2['train'] + splits_2['test'])
 
-    with open('motif_app_unseen_task_unseen.json') as f:
+    with open('eccv_motif_app_unseen_task_unseen.json') as f:
         splits_3 = json.load(f)
         splits_3 = set(splits_3['train'] + splits_3['test'])
     
-    with open('motif_app_unseen_task_seen.json') as f:
+    with open('eccv_motif_app_unseen_task_seen.json') as f:
         splits_4 = json.load(f)
         splits_4 = set(splits_4['train'] + splits_4['test'])
 
@@ -615,24 +621,25 @@ def main():
     print(FLAGS.dedup_cycles)
     for i in range(len(traces)):
         trace = traces[i]
-        if i % 1000 == 0:
+        if i % 100 == 0:
             print(i)
 
         app = glob.glob(os.path.join(FLAGS.data_dir, '*', trace))[0]
         app = app.split('/')[-2]
 
-        try:
-            (all_views, all_gestures, saved_view_idxs, kept_view_uids, 
-                kept_view_actions, kept_chosen_objs, target_idxs, im_w, im_h, vh_w, vh_h, scale_x, scale_y) = make_clean_trace(app, trace)
-            (action_class, action_instrs, ui_types, chosen_uis_text, 
-                view_bboxes, screen_bboxes, final_views_used, final_tidxs, ui_objs, actions) = get_actions(all_views, all_gestures, kept_view_actions, kept_chosen_objs, saved_view_idxs, target_idxs, vh_w, vh_h, scale_x, scale_y)
-            if len(final_views_used) > 0:
-                (fd, uis) = get_feat_dict(app, trace, final_views_used, final_tidxs, action_instrs, actions, action_class, ui_types, chosen_uis_text, ui_objs, screen_bboxes, view_bboxes, all_gestures, im_w, im_h, vh_w, vh_h, scale_x, scale_y)
-            else:
-                continue
-                
-            with open(os.path.join(FLAGS.save_dir, trace + '.json'), 'w') as f:
-                json.dump(fd, f)
-        except:
+        # try:
+        (all_views, all_gestures, saved_view_idxs, kept_view_uids, 
+            kept_view_actions, kept_chosen_objs, target_idxs, im_w, im_h, vh_w, vh_h, scale_x, scale_y) = make_clean_trace(app, trace)
+        (action_class, action_instrs, ui_types, chosen_uis_text, 
+            view_bboxes, screen_bboxes, final_views_used, final_tidxs, ui_objs, actions) = get_actions(all_views, all_gestures, kept_view_actions, kept_chosen_objs, saved_view_idxs, target_idxs, vh_w, vh_h, scale_x, scale_y)
+        
+        if len(final_views_used) > 0:
+            (fd, uis) = get_feat_dict(app, trace, final_views_used, final_tidxs, action_instrs, actions, action_class, ui_types, chosen_uis_text, ui_objs, screen_bboxes, view_bboxes, all_gestures, im_w, im_h, vh_w, vh_h, scale_x, scale_y)
+        else:
             continue
+
+        with open(os.path.join(FLAGS.save_dir, trace + '.json'), 'w') as f:
+            json.dump(fd, f)
+        # except:
+        #     continue
 main()
