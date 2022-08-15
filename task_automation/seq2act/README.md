@@ -1,6 +1,8 @@
 # Seq2act: Mapping Natural Language Instructions to Mobile UI Action Sequences
 This repository contains the modified code for the models and the experimental framework for "Mapping Natural Language Instructions to Mobile UI Action Sequences" by Yang Li, Jiacong He, Xin Zhou, Yuan Zhang, and Jason Baldridge (ACL 2020). This model is one of the baselines used to benchmark our mobile app task automation problem.
 
+**Note:** A bug in the labeling of UI elements for type events resulted in minor performance under-reporting in the ECCV proceedings. We have fixed the issue and updated the results in our [ArXiv version](https://arxiv.org/abs/2202.02312), please use these values as the correct baseline. All analysis and trends remain the same as those in the ECCV paper. The step-by-step instruction results (Table 4) improved for Seq2Act with the fix incorporated, no other results were notably impacted. We thank Bryan Wang for bringing this to our attention.
+
 ## Datasets
 We release the AndroidHowTo [tfrecords](https://drive.google.com/file/d/1pWUH6of95LNzc6E774Cyq6pK7yP96tCm/view?usp=sharing) directly because it is time consuming and memory heavy to process that data from scratch. The PixelHelp tfrecords can be accessed [here](https://github.com/google-research-datasets/seq2act/tree/master/data/pixel_help) from the original Seq2Act GitHub. 
 
