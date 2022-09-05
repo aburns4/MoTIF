@@ -14,12 +14,25 @@ If you use our data, please cite our paper:
 
 ## Design Choices and Random Notes
 
+Primary processing of MoTIF from its raw data occurs in [all_in_one_motif_preprocess.py](https://github.com/aburns4/MoTIF/blob/main/task_automation/seq2act/motif_data_generation/all_in_one_motif_preprocess.py). There are some quirks we'd like to bring your attention to, as you may want to make different design choices and update this code for your own purposes.
+
+1. Matching UI Screen Interactions to UI View Hierarchy Elements
+   - Finding the closest match
+   - Widget Exceptions
+2. Unique Identifier (UID) per Screen
+3. Definition of Swiping Events
+4. Definition of Typing Events
+5. Deduplification of Action Sequences
+6. Extra Cleaning
+   - Logging in Events
+   - Technical Errors (Google Play Store keeps stopping)
+
 ## JSON Data Format
 The JSON data we refer to here is the result of running dedup.sh on the raw data folders. You can directly download the processed json data and skip this processing step. Here is what is stored in each JSON file:
 
 | Feature Name            | Type         | Content                                  |
 | ----------------------- | ------------ | ---------------------------------------- |
-| trace_id                |  str         | an unique id for each example            |
+| trace_id                |  str         | A unique id for each action sequence     |
 | goal                    |  str         | Natural language sentence describing a high-level instruction for a request on an Android app |
 | instr                   | list(str)    | Synthetic sentences describe the low-level (step-by-step) instruction for a request on an Android app |
 | app                     | str          | Android app package name                 |

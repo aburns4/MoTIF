@@ -71,6 +71,8 @@ def get_ground_accuracy(gt_pred, complete=True):
     total_grounding = []
     if complete:
         for sample in gt_pred:
+            if sample[0] == -1:
+                continue
             # print(sample)
             complete_grounding = 1.0
             if len(sample[1]) == 0 or (len(sample[0]) != len(sample[1])):
@@ -90,6 +92,8 @@ def get_ground_accuracy(gt_pred, complete=True):
             partial_ground = []
             seq_len = min(len(sample[0]), len(sample[1]))
             for i in range(seq_len):
+                if sample[0][i] == -1:
+                    continue
                 if (abs(sample[0][i] - sample[1][i]) <= 1): 
                 # if (abs(sample[0][i] - sample[1][i]) == 0): # exact match code
                     partial_ground.append(1.0) 
@@ -120,6 +124,8 @@ def get_both_accuracy(gt_pred, complete=True):
                 continue
 
             for i in range(seq_len):
+                if sample[0][i][1] == -1:
+                    continue
                 if (sample[0][i][0] != sample[1][i][0]) or (abs(sample[0][i][1] - sample[1][i][1]) > 1):
                 # if (sample[0][i][0] != sample[1][i][0]) or (sample[0][i][1] != sample[1][i][1]): # exact match code
                     complete_both = 0.0
@@ -131,6 +137,8 @@ def get_both_accuracy(gt_pred, complete=True):
             partial_both = []
             seq_len = min(len(sample[0]), len(sample[1]))
             for i in range(seq_len):
+                if sample[0][i][1] == -1:
+                    continue
                 if (sample[0][i][0] == sample[1][i][0]) and (abs(sample[0][i][1] - sample[1][i][1]) <= 1): 
                 # if (sample[0][i][0] == sample[1][i][0]) and (sample[0][i][1] == sample[1][i][1]): # exact match code
                     partial_both.append(1.0) 
@@ -141,7 +149,7 @@ def get_both_accuracy(gt_pred, complete=True):
 
 def __main__():
     # replace decode_folder below with the appropriate folder 
-    path = '/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/decode/motif/su_all_sbs_final/decodes.joint_act'
+    path = '/projectnb/ivc-ml/aburns4/MoTIF/task_automation/seq2act/decode/motif/su_all_swipe_debug_step/decodes.joint_act'
     res = get_decode_results(path)
     gt_and_pred = get_gt_and_pred(res)
     action_gt_pred = get_action_gt_and_pred(gt_and_pred)

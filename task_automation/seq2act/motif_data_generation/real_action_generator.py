@@ -884,6 +884,7 @@ def get_swipe_info(ui_object, ui_objs, gesture, is_next=True):
     direction = swipe_direction(gesture)
     obj_direction = None
     was_missing = False
+    use_next_tidx = False
 
     if is_next:
         obj_name = _truncate_name(ui_object.obj_name, config.MAX_OBJ_NAME_WORD_NUM)
@@ -908,11 +909,14 @@ def get_swipe_info(ui_object, ui_objs, gesture, is_next=True):
         if obj_direction:
             obj_desc_str = ' '.join([obj_desc_str, obj_direction])
         instr = '%s %s %s %s' % (verb_str, direction, swipe_prep_word, obj_desc_str)
+
+        use_next_tidx = True
+        # print('Should be using next target idx for swipe event')
     else:
         obj_desc_str = ''
         instr = '%s %s' % (verb_str, direction)
 
-    return instr, action_type, input_content_str, verb_str, obj_desc_str, was_missing
+    return instr, action_type, input_content_str, verb_str, obj_desc_str, was_missing, use_next_tidx
 
 def get_type_info(ui_object, ui_objs):
      
@@ -998,23 +1002,12 @@ def swipe_direction(swipe_gesture):
         else:
             return 'up'
 
-def load_all_actions(ui_objs, ui_target_idxs, trace_path, gestures):
+def load_all_actions(ui_objs, ui_target_idxs, trace_task, gestures):
     action_list = []
-    trace_to_task = {}
-    trace_id = trace_path.split('/')[-1]
-    with open('/projectnb/ivc-ml/aburns4/stage2/traces_02_14_21/tasknames.csv') as f:
-        trace_map = f.readlines()
-        trace_map = [x.strip().split(" ") for x in trace_map]
-        for entry in trace_map:
-            tr_id = entry[0]
-            task = " ".join(entry[1:])
-            trace_to_task[tr_id] = task
-
-    trace_task = trace_to_task[trace_id]
     t_steps = list(zip(ui_objs, ui_target_idxs))
     t_steps = [list(x) for x in t_steps]
     i = 0
-    next = False
+    next_bool = False
     missed_tsteps = []
     for t in t_steps:
         target_object_idx = t[1]
@@ -1032,14 +1025,18 @@ def load_all_actions(ui_objs, ui_target_idxs, trace_path, gestures):
             if i < (len(t_steps) - 1):
                 next_ui_object = ui_objs[i+1]
                 if next_ui_object:
-                    next = True
+                    next_bool = True
             else:
                 next_ui_object = None
             gesture_to_next = gestures[i]
-            instr, action_type, input_content_str, verb_str, obj_desc_str, was_missed = get_swipe_info(next_ui_object, ui_objs, gesture_to_next, is_next=next)
+            instr, action_type, input_content_str, verb_str, obj_desc_str, was_missed, use_next_tidx = get_swipe_info(next_ui_object, ui_objs, gesture_to_next, is_next=next_bool)
             if was_missed:
                 missed_tsteps.append('swipe missing')
-            next = False
+            if use_next_tidx:
+                # print(target_object_idx)
+                target_object_idx = ui_target_idxs[i+1]
+                # print(target_object_idx)
+            next_bool = False
         elif ui_object.obj_type.value == 4 and ui_object.obj_name is not None:
             # EDITTEXT
             # when obj name is None, it is the initial click ontext field
