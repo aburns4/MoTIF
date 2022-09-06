@@ -24,7 +24,7 @@ sh dedup.sh
 ```
 
 to generate json files that contain information on each interaction trace in MoTIF. 
-In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1k5lfrD82TILQt-mlp96gvNObHmxq9xqG/view?usp=sharing).
+In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1HD0nuFqAyapxmJiWj8Xhl3LeUDPVRIgm/view?usp=sharing).
 
 Once you have the cleaned data, unzip it in the `motif_data_generation` folder and run the following command
 
