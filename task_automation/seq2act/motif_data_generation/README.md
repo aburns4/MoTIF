@@ -45,9 +45,11 @@ Primary processing of MoTIF from its raw data occurs in [all_in_one_motif_prepro
 7. Step by Step Instructions
    - The function `load_all_actions` in `real_action_generator.py` creates the synthetic low level instructions for each time step, similar to what was done originally for Seq2Act. However, note that we're generation commands for real user actions, they just need low level descriptions per time step. 
 
-      Unlike Seq2Act, we include swipe actions and again, are using real human demonstration. As a result, sometimes humans interact with UI objects that do not have descriptive text in the view hierarchy backend. This is what Seq2Act relied on for generating their synthetic commands, and they would only retain app elements that had text content. To retain our original action demonstrations as is, we incorporated parsed UI object names or IDs as well as their location (e.g., top left corner) to make more descriptive step by step commands when descriptive text was missing.
+      Unlike Seq2Act, we include swipe actions and again, are using real human demonstration. As a result, sometimes humans interact with UI objects that do not have descriptive text in the view hierarchy backend. This is what Seq2Act relied on for generating their synthetic commands, and they would only retain app elements that had text content. To retain our original action demonstrations as is, we incorporated parsed UI object names or IDs as well as their location (e.g., top left corner) to make more descriptive step by step commands when descriptive text was missing. 
 
       This is part of what makes our dataset more challenging than the original RicoSCA data, but it also makes it more realistic.
+
+      For a details of how click, swipe, and type step by step instructions are constructed, see the functions `get_click_info`, `get_swipe_info`, and `get_type_info`, respectively, in `real_action_generator.py`.
 
 ## JSON Data Format
 The JSON data we refer to here is the result of running dedup.sh on the raw data folders. You can directly download the processed json data and skip this processing step. Here is what is stored in each JSON file:
