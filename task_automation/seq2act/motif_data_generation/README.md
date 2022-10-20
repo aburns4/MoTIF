@@ -37,12 +37,17 @@ Primary processing of MoTIF from its raw data occurs in [all_in_one_motif_prepro
    - **Sequential Typing**
       We use the `get_text_duplicates` function to find typing actions that all constitute the same type action. This might happen if our data collection interface captures multiple moments of a typing event or if a user individually typed each letter on the rendered phone keyboard, they might appear as independent time steps when they are actually all associated with the same action. For example, someone could incrementally type "p" "pi" "pin" "pink" which are all for the final type event "pink".
 6. Extra Cleaning
-   - Logging in Events
-   - Technical Errors (Google Play Store keeps stopping)
-   - Missing Gesture
-   - JSON Error
-   - End State
+   - **Logging in Events** We filter out logging in. We asked annotators to not start recording their action sequence until they logged into applications that required it, but still found some action traces to contain log in actions. So, we add additional filtering to remove time steps relate to logging in or agreeing to terms and conditions.
+   - **Technical Errors (Google Play Store keeps stopping)** Sometimes the Google Play Store would error and cause pop ups during action sequences which were not related to the app task at hand. We remove these.
+   - **Missing Gesture** Our collection interface captures user interaction at a regular interval and sometimes captures state where no action was taken. This can result in empty app states in the action sequence which don't have an associated gesture. We remove these as well.
+   - **JSON Error** Infrequently, our collection interface would store a corrupted or empty json for a particular time step. We remove these as well.
+   - **End State** Sometimes the end state of an action sequence is the state that results from the final action, and sometimes it the state on which the final action is taken. Both are valid, but we pad the latter case. As a result, all processed action sequences have n actions, and n+1 image states, where the n+1 final state is either the screen that resulted from the final action or a duplicate of the last state for which we have an action.
 7. Step by Step Instructions
+   - The function `load_all_actions` in `real_action_generator.py` creates the synthetic low level instructions for each time step, similar to what was done originally for Seq2Act. However, note that we're generation commands for real user actions, they just need low level descriptions per time step. 
+
+      Unlike Seq2Act, we include swipe actions and again, are using real human demonstration. As a result, sometimes humans interact with UI objects that do not have descriptive text in the view hierarchy backend. This is what Seq2Act relied on for generating their synthetic commands, and they would only retain app elements that had text content. To retain our original action demonstrations as is, we incorporated parsed UI object names or IDs as well as their location (e.g., top left corner) to make more descriptive step by step commands when descriptive text was missing.
+
+      This is part of what makes our dataset more challenging than the original RicoSCA data, but it also makes it more realistic.
 
 ## JSON Data Format
 The JSON data we refer to here is the result of running dedup.sh on the raw data folders. You can directly download the processed json data and skip this processing step. Here is what is stored in each JSON file:
