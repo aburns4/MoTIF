@@ -4,7 +4,7 @@ This repository contains the modified code for the models and the experimental f
 **Note:** A bug in the labeling of UI elements for type events resulted in minor performance under-reporting in the ECCV proceedings. We have fixed the issue and updated the results in our [ArXiv version](https://arxiv.org/abs/2202.02312), please use these values as the correct baseline. All analysis and trends remain the same as those in the ECCV paper. The step-by-step instruction results (Table 4) improved for Seq2Act with the fix incorporated, no other results were notably impacted. We thank Bryan Wang for bringing this to our attention.
 
 ## Datasets
-We release the AndroidHowTo [tfrecords](https://drive.google.com/file/d/1pWUH6of95LNzc6E774Cyq6pK7yP96tCm/view?usp=sharing) directly because it is time consuming and memory heavy to process that data from scratch. The PixelHelp tfrecords can be accessed [here](https://github.com/google-research-datasets/seq2act/tree/master/data/pixel_help) from the original Seq2Act GitHub. 
+We release the AndroidHowTo [tfrecords](https://drive.google.com/file/d/14ejeDhnPtFk54H2XQzU0ULPaoWb95hf4/view?usp=sharing) directly because it is time consuming and memory heavy to process that data from scratch. The PixelHelp tfrecords can be accessed [here](https://github.com/google-research-datasets/seq2act/tree/master/data/pixel_help) from the original Seq2Act GitHub. 
 
 For RicoSCA and MoTIF, we provide code to process the tfrecords yourself because they end up being large files. Here is how you do it:
 
@@ -17,14 +17,14 @@ sh create_rico_sca.sh
 
 The bash script has different flags you can change as you need. The filter files we provide create different splits of RicoSCA data for evaluating MoTIF; e.g., the ua_ut filter creates a split of the training data for evaluating an unseen app and unseen task test split. See the `data_generation` folder for more info.
 
-For MoTIF, if you want to start from scratch or modify the original data processing, first download the two raw data folders [here](https://drive.google.com/file/d/1XScaD4Pr3K9a9E013wQdh4qd-svdkeVe/view?usp=sharing) (rename this first folder from "raw" to "traces_02_14_21") and [here](https://drive.google.com/file/d/1Yb8l3CSJkeGw62_GZIb_9Lwo2FYiu-GC/view?usp=sharing) (should be already named "traces_03_17_21") and place it in the `data/motif/raw` directory. Next, run
+For MoTIF, if you want to start from scratch or modify the original data processing, first download the two raw data folders [here](https://drive.google.com/file/d/1-NdVbSQXY6hcCsvCr-eZ_WKlNhTb8TRi/view?usp=sharing) (this first folder should be named "traces_02_14_21") and [here](https://drive.google.com/file/d/1-9t77IbaC-9ohnhellsDJlsgisToQqum/view?usp=sharing) (this first folder should be named "traces_03_17_21") and place it in the `data/motif/raw` directory. Next, run
 
 ```
 sh dedup.sh
 ```
 
 to generate json files that contain information on each interaction trace in MoTIF. 
-In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1HD0nuFqAyapxmJiWj8Xhl3LeUDPVRIgm/view?usp=sharing).
+In this file we clean the captured action sequences from duplicate events, technical failures, and cyclic behavior. Our default is to remove cycles, but our processing code is not perfect (there are many edge cases/it is challenging to cover all situations with the same code). If you have suggested improvements for how we handle these cases please raise an issue and let us know. You can skip this step and download our already processed jsons [here](https://drive.google.com/file/d/1Z-8u2Jqv_0D-7IOgUC0OghUXM1mhSooX/view?usp=sharing).
 
 Once you have the cleaned data, unzip it in the `motif_data_generation` folder and run the following command
 
@@ -68,7 +68,7 @@ To obtain performance values, run the following with the appropriate `.decode_ac
 python decode.motif.grounding_acc.py
 ```
 
-We release [checkpoints](https://drive.google.com/file/d/16y6EO0FE51nDop_N5yVVfOhA2e79hvwN/view?usp=sharing) for the unseen app unseen task split and seen app unseen task split. See more information on these splits in `motif_data_generation`.
+We release [checkpoints](https://drive.google.com/file/d/1hLorKxa-GvrlsOCsV1U5v_hKMMOpvJWp/view?usp=sharing) for the unseen app unseen task split and seen app unseen task split. See more information on these splits in `motif_data_generation`.
 
 The above checkpoint folder also contains the orginal trained model checkpoints released from Seq2Act. NOTE: The key differences between this model and the model I trained on seen apps and unseen tasks is that their model trained on different typing commands with an unknown distribution (as previously mentioned, they did not release the file required to recreate those commands). Additionally, they were able to train with a larger batch size.
 
