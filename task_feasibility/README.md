@@ -61,7 +61,7 @@ MoTIF
         --view_hierarchies/
         feasibility.txt
         metadata.json
-        tast.txt
+        task.txt
   data_loader.py
   main.py
   model.py
