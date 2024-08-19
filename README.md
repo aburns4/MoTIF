@@ -2,7 +2,7 @@
 This repository contains the code for the data processing, models, and experimental framework for "A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility" Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer, which is accepted in the proceedings of the European Conference on Computer Vision (ECCV) 2022.
 
 ## MoTIF Dataset
-If you want the most general form of the interaction data, you can access the aggregated data [here](https://drive.google.com/file/d/1_yT0QMUyogA-dS0ozBH8Q9Tn5pH9AdvE/view?usp=share_link)! This contains the rendered app screens, app view hierarchies, raw interaction sequences, language annotations, and task feasibility annotations. Additional processing to clean the raw data to a processed json format can be found in the task automation folder [here](https://github.com/aburns4/MoTIF/blob/main/task_automation/seq2act/motif_data_generation/all_in_one_motif_preprocess.py).
+If you want the most general form of the interaction data, you can access the aggregated data [here](https://drive.google.com/file/d/1Zxm-onsO5MURcKYrRVqJjov0Zb3U1lGf/view?usp=sharing)! This contains the rendered app screens, app view hierarchies, raw interaction sequences, language annotations, and task feasibility annotations. Additional processing to clean the raw data to a processed json format can be found in the task automation folder [here](https://github.com/aburns4/MoTIF/blob/main/task_automation/seq2act/motif_data_generation/all_in_one_motif_preprocess.py).
 
 <img src="https://github.com/aburns4/MoTIF/blob/main/motif.jpg" alt="Graphic illustrating feasible and infeasible MoTIF mobile app action sequences" width="825">
  
