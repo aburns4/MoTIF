@@ -1,9 +1,5 @@
 # MoTIF
-Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments
-Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer
-NAACL ViGIL Workshop Spotlight Paper 2021
-
-COMING SOON: All language annotations (all 6.1k collected tasks), code for automating mobile app tasks, and additional data! Check back soon for updates. 
+A Dataset for Interactive Vision-Language Navigation with Unknown Command Feasibility. *Andrea Burns, Deniz Arsan, Sanjna Agrawal, Ranjitha Kumar, Kate Saenko, Bryan A. Plummer*. ECCV 2022.
 
 ## Environment
 You can build an anaconda environment using our `requirements.txt` file, which has a comprehensive list of the packages installed in the environment used to run experiments. Note, it may contain unnecessary packages. The most important packages are:
@@ -13,7 +9,7 @@ You can build an anaconda environment using our `requirements.txt` file, which h
 * scikit-learn
 
 ## Data Extraction and Set Up
-To start, download the raw data and features from https://drive.google.com/file/d/1XScaD4Pr3K9a9E013wQdh4qd-svdkeVe/view?usp=sharing and https://drive.google.com/file/d/1GSVA8sz-SKcioNhCq1lWH58x_u5FXfDQ/view?usp=sharing. Now extract the files.
+To start, download the [raw data](https://drive.google.com/file/d/1Zxm-onsO5MURcKYrRVqJjov0Zb3U1lGf/view?usp=sharing) and [features](https://drive.google.com/file/d/1nr1O7uV_WqOSy9-nkW1ns-hKDpepTGEB/view?usp=sharing). Now extract the files.
 ```
 tar -xf motif_raw_data.tar.gz
 tar -xf data.tar.gz
@@ -91,13 +87,10 @@ python main.py -c ft_lang_et_id_cls_v20_avg.json
 ### Citation
 If you use our code or data, please consider citing our work :)
 ```
-@article{burns2021mobile,
-      title={Mobile App Tasks with Iterative Feedback (MoTIF): Addressing Task Feasibility in Interactive Visual Environments}, 
+@inproceedings{burns2022motifvln,
+      title={A Dataset for Interactive Vision Language Navigation with Unknown Command Feasibility}, 
       author={Andrea Burns and Deniz Arsan and Sanjna Agrawal and Ranjitha Kumar and Kate Saenko and Bryan A. Plummer},
-      journal={Visually Grounded Interaction and Language Workshop at the North American Chapter of the Association for Computational Linguistics (NAACL)}
-      year={2021},
-      url={http://arxiv.org/abs/2104.08560},
-      archivePrefix={arXiv},
-      eprint={2104.08560}
+      booktitle={European Conference on Computer Vision (ECCV)},
+      year={2022}
 }
 ```
